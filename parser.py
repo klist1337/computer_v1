@@ -1,8 +1,19 @@
 import re 
 from helper import FormatError
 
+def getPolynome(input : str) :
+     
+     # parcours le polynome et split le polynome en monome 
+     polynome = []
+     pattern = r"[+-]"
+     print(input)
+     polynome = re.split(pattern, input)
+     print(polynome)
+     
+
+
 def errorHandler(arg : list) :
-     pattern = r"[A-Za-z@]"
+     pattern = r"[A-Wa-wxY:;,~yZz@&%$#!{}'<>\[\]\,?/()]"
      size = len(arg)
      inputLen = 0
      if size == 1 :
@@ -14,10 +25,13 @@ def errorHandler(arg : list) :
           return FormatError.EMPTYSTRING
      if re.findall(pattern, arg[1]) != [] :
           return FormatError.WRONGFORMAT
-def getPolynome() : 
-     polynome = []
-         
+     #replace all white space by empty string
+     input = re.sub('\s', "", arg[1])
+     if (input[0] == "+"):
+          return FormatError.WRONGFORMAT
+     getPolynome(input)
 
 def parser(arg: list) :
      result = errorHandler(arg)
+
      return result
