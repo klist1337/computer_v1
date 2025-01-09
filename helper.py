@@ -12,8 +12,8 @@ class FormatError(Enum) :
 
 
 def printError(parsingRes) :
-    str1 = "a * X^0 + b * X^1 = 0 (1st degree) where a, b and c are reels"
-    str2 = "a * X^0 + b * X^1 + c * X^2 = 0 (2nd degree) where a, b and c are reels"
+    str1 = "a * X^0 + b * X^1 = a * X^0 (1st degree) where a and b are reels"
+    str2 = "a * X^0 + b * X^1 + c * X^2 = a * X^1 (2nd degree) where a, b and c are reels"
     format = "USAGE:\n" + str1 + '\n' + str2
     match parsingRes:
         case FormatError.NONEARG :
