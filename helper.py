@@ -9,11 +9,16 @@ class FormatError(Enum) :
      WRONGFORMAT = 3
      BADPOLYNOME = 4
 
+class PolynomialDegree(Enum) :
+    Zero = 0
+    ONE = 1
+    TWO = 2
+    GREATHERTHANTWO = 3
 
 
 def printError(parsingRes) :
-    str1 = "a * X^0 + b * X^1 = a * X^0 (1st degree) where a and b are reels"
-    str2 = "a * X^0 + b * X^1 + c * X^2 = a * X^1 (2nd degree) where a, b and c are reels"
+    str1 = "c * X^0 + b * X^1 = c * X^0 (1st degree) where a and b are reels"
+    str2 = "c * X^0 + b * X^1 + a * X^2 = c * X^0 (2nd degree) where a, b and c are reels"
     format = "USAGE:\n" + str1 + '\n' + str2
     match parsingRes:
         case FormatError.NONEARG :
