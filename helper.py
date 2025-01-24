@@ -10,10 +10,11 @@ class FormatError(Enum) :
      BADPOLYNOME = 4
 
 class PolynomialDegree(Enum) :
-    Zero = 0
-    ONE = 1
-    TWO = 2
-    GREATHERTHANTWO = 3
+    NOSOLUTION = 0
+    EACHREALISASOLUTION = 1
+    ONE = 2
+    TWO = 3
+    GREATHERTHANTWO = 4
 
 
 def printError(parsingRes) :

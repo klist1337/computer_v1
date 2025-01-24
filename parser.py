@@ -42,42 +42,61 @@ def getAllCoeff(firstPoly, secondPoly) :
      if (len(firstPoly) < len(secondPoly)) :
           for x in range(len(secondPoly)):
                try:
-                    if (getCoeff(firstPoly[x]) - getCoeff(secondPoly[x])) != 0: 
-                         coeffs.append(getCoeff(firstPoly[x]) - getCoeff(secondPoly[x]))
+                    coeffs.append(getCoeff(firstPoly[x]) - getCoeff(secondPoly[x]))
                except IndexError :
                    coeffs.append(-getCoeff(secondPoly[x]))
      if len(firstPoly) == len(secondPoly) :
                for x in range(len(firstPoly)) :
-                    if (getCoeff(firstPoly[x]) - getCoeff(secondPoly[x])) != 0 :
-                         coeffs.append(getCoeff(firstPoly[x]) - getCoeff(secondPoly[x]))
+                    coeffs.append(getCoeff(firstPoly[x]) - getCoeff(secondPoly[x]))
      return coeffs
 
 def reducedForm(firstPoly: str, secondPoly:str) :
      #we have to check the longest polynome to iterate it for sommation
      coeffs = getAllCoeff(firstPoly, secondPoly)
      reduced = ""
+     flag = 0
      for x in range(len(coeffs)) :
-          coeffsString = str(coeffs[x])
-          part = coeffsString.split('.')
-          if (int(part[1]) == 0) :
-           coeffs[x] = int(coeffs[x])
-     
-          if (coeffs[x] > 0 and x > 0) :
-              reduced += f" + {coeffs[x]} * X^{x} "
-          elif (coeffs[x] < 0 and x == 0) :
-               reduced += f" - {abs(coeffs[x])} * X^{x} "
-          elif (coeffs[x] > 0 and x == 0) :
-               reduced += f"{coeffs[x]} * X^{x} "
-          else :
-               reduced += f" - {abs(coeffs[x])} * X^{x} "
-     reduced += "= 0"
-     if len(coeffs) == 1:
-          return [reduced, len(coeffs) - 1, PolynomialDegree.Zero]
+          if (coeffs[x] != 0) :
+               flag = 1
+               coeffsString = str(coeffs[x])
+               part = coeffsString.split('.')
+               if (int(part[1]) == 0) :
+                    coeffs[x] = int(coeffs[x])
+               if (coeffs[x] > 0 and x > 0) :
+                    flg = 0 
+                    for y in range(0, x):
+                         if (coeffs[y] != 0):
+                              flg = 1
+                    if flg == 0:     
+                         reduced += f" {coeffs[x]} * X^{x} "
+                    else:
+                         reduced += f" + {coeffs[x]} * X^{x} "
+               elif (coeffs[x] < 0 and x == 0) :
+                    reduced += f" - {abs(coeffs[x])} * X^{x} "
+               elif (coeffs[x] > 0 and x == 0) :
+                    reduced += f"{coeffs[x]} * X^{x} "
+               else :
+                    reduced += f" - {abs(coeffs[x])} * X^{x} "
+     if flag == 0:
+          reduced += " 0 = 0"
+     else:
+          reduced+= "= 0"
+     reduced2 = reduced.split('=')[0]
+     coeffsList = reduced2.split('*')
+     len (coeffsList) == 2 
+     if reduced == " 0 = 0" :
+          return [reduced, 0, PolynomialDegree.EACHREALISASOLUTION]
+     if len (coeffsList) == 2 :
+          degree = coeffsList[1].split('^')[1]
+          if int(degree) == 0 :
+               return [reduced, 0, PolynomialDegree.NOSOLUTION]
+          if int(degree) == 1:
+               return [reduced, 1, PolynomialDegree.ONE, coeffs]
      if len(coeffs) > 3 :
           return [reduced, len(coeffs) - 1,PolynomialDegree.GREATHERTHANTWO] 
      if len(coeffs) == 2:
           return [reduced, len(coeffs) - 1,PolynomialDegree.ONE, coeffs]
-     if len(coeffs) == 3 :
+     if len(coeffs) == 3:
           return [reduced, len(coeffs) - 1, PolynomialDegree.TWO, coeffs]
 
 def errorHandler(arg : list) :
